@@ -7,8 +7,9 @@ import EndpointsList from '@/components/admin/EndpointsList';
 import RequestLogs from '@/components/admin/RequestLogs';
 import RoutingConfig from '@/components/admin/RoutingConfig';
 import ServicesList from '@/components/admin/ServicesList';
+import WorkflowBuilder from '@/components/admin/workflow/WorkflowBuilder';
 
-type ActiveView = 'dashboard' | 'endpoints' | 'logs' | 'routing' | 'services';
+type ActiveView = 'dashboard' | 'endpoints' | 'logs' | 'routing' | 'services' | 'workflow';
 
 export default function AdminPage() {
   const [activeView, setActiveView] = useState<ActiveView>('dashboard');
@@ -56,36 +57,46 @@ export default function AdminPage() {
                 {activeView === 'logs' && 'Request Logs'}
                 {activeView === 'routing' && 'Routing'}
                 {activeView === 'services' && 'Services'}
+                {activeView === 'workflow' && 'Workflow Builder'}
               </span>
             </div>
           </div>
 
-          {/* Page Title */}
-          <div className="bg-white px-6 py-6 border-b" style={{ borderColor: '#e2e8f0' }}>
-            <h1 className="text-3xl font-bold" style={{ color: '#00ed64' }}>
-              {activeView === 'dashboard' && 'Dashboard'}
-              {activeView === 'endpoints' && 'API Endpoints'}
-              {activeView === 'logs' && 'Request Logs'}
-              {activeView === 'routing' && 'Routing Configuration'}
-              {activeView === 'services' && 'Services'}
-            </h1>
-            <p className="text-sm mt-2" style={{ color: '#6b7280' }}>
-              {activeView === 'dashboard' && 'Monitor your API Gateway performance and statistics'}
-              {activeView === 'endpoints' && 'Manage and configure API endpoints'}
-              {activeView === 'logs' && 'View and analyze API request logs'}
-              {activeView === 'routing' && 'Configure routing rules and policies'}
-              {activeView === 'services' && 'Manage backend services and their configurations'}
-            </p>
-          </div>
+          {activeView === 'workflow' ? (
+            /* Workflow Builder - full height */
+            <div className="flex-1 flex flex-col" style={{ height: 'calc(100vh - 105px)' }}>
+              <WorkflowBuilder />
+            </div>
+          ) : (
+            <>
+              {/* Page Title */}
+              <div className="bg-white px-6 py-6 border-b" style={{ borderColor: '#e2e8f0' }}>
+                <h1 className="text-3xl font-bold" style={{ color: '#00ed64' }}>
+                  {activeView === 'dashboard' && 'Dashboard'}
+                  {activeView === 'endpoints' && 'API Endpoints'}
+                  {activeView === 'logs' && 'Request Logs'}
+                  {activeView === 'routing' && 'Routing Configuration'}
+                  {activeView === 'services' && 'Services'}
+                </h1>
+                <p className="text-sm mt-2" style={{ color: '#6b7280' }}>
+                  {activeView === 'dashboard' && 'Monitor your API Gateway performance and statistics'}
+                  {activeView === 'endpoints' && 'Manage and configure API endpoints'}
+                  {activeView === 'logs' && 'View and analyze API request logs'}
+                  {activeView === 'routing' && 'Configure routing rules and policies'}
+                  {activeView === 'services' && 'Manage backend services and their configurations'}
+                </p>
+              </div>
 
-          {/* Content Area */}
-          <div className="p-6">
-            {activeView === 'dashboard' && <Dashboard />}
-            {activeView === 'endpoints' && <EndpointsList />}
-            {activeView === 'logs' && <RequestLogs />}
-            {activeView === 'routing' && <RoutingConfig />}
-            {activeView === 'services' && <ServicesList />}
-          </div>
+              {/* Content Area */}
+              <div className="p-6">
+                {activeView === 'dashboard' && <Dashboard />}
+                {activeView === 'endpoints' && <EndpointsList />}
+                {activeView === 'logs' && <RequestLogs />}
+                {activeView === 'routing' && <RoutingConfig />}
+                {activeView === 'services' && <ServicesList />}
+              </div>
+            </>
+          )}
         </main>
       </div>
     </div>
